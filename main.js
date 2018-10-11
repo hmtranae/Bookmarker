@@ -1,18 +1,13 @@
-// console.log("Hello from JavaScript");
-
 // Event Listener for form submit
-document.querySelector("#myForm").addEventListener("submit", savaBookmark);
+document.querySelector("#myForm").addEventListener("submit", saveBookmark); // run saveBookmark when a form is submitted within #myForm
 
 // Save Bookmarks
-function savaBookmark(e) {
-    e.preventDefault();
-    // console.log("Hello from saveBookmark");
+function saveBookmark(e) {
+    e.preventDefault(); // prevents submit's default action (refresh page when clicked)
 
     // Get User input
     var siteName = document.querySelector("#siteName").value;
-    // console.log(siteName);
-    var siteUrl = document.getElementById("siteUrl").value;
-    // console.log(siteUrl);
+    var siteUrl = document.querySelector("#siteUrl").value;
 
     // Create an object for bookmark
     var bookmark = {
@@ -22,47 +17,41 @@ function savaBookmark(e) {
 
     // Check if name or url is empty
     if (siteName === "" || siteUrl === "") {
-        alert("Site name and url cannot be empty");
+        alert("Site name and URL cannot be empty");
         return false;
     }
-
-    // console.log(bookmark);
-
-    // localStorage.setItem("test", "Hello World");
-    // console.log(localStorage.getItem("test"));
-
-    // store bookmarks array into local storage
+    
+    // Store bookmarks array into local storage
 
     // Check if the bookmarks array exists
-    if (localStorage.getItem("bookmarks") === null) {
+    if (localStorage.getItem("bookmarks") === null) { // if bookmarks array is empty
         // Init bookmarks array
         var bookmarks = [];
         // Adding new bookmark into array
         bookmarks.push(bookmark);
         // Set to localStorage
         localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-    } else {
+    } else { // if bookmarks exists
         // Get bookmarks from local storage
         var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
         // Add new bookmark into bookmarks
         bookmarks.push(bookmark);
-        //reset bookmarks to localStorage
+        // Reset bookmarks to localStorage
         localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
     }
-    // Rest the form
+    // Reset the form: make the inputs empty
     document.querySelector("#myForm").reset();
 
-    fetchBookmarks();
+    fetchBookmarks(); // Displays each bookmark object in bookmarks array
 }
-// fetch Bookmakrs
+
+// fetch Bookmarks
 function fetchBookmarks() {
     // Get bookmarks from localStorage
     var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
 
     // Get the output div by id
     var bookmarksResult = document.querySelector("#bookmarksResult");
-
-    // console.log(bookmarksResult);
 
     // Reset the output div
     bookmarksResult.innerHTML = "";
@@ -77,7 +66,7 @@ function fetchBookmarks() {
             "<h3>" +
             name +
             " " +
-            '<a class="btn btn-success" href="' +
+            '<a target="_blank" class="btn btn-success" href="' +
             url +
             '">Visit</a> ' +
             '<button class="btn btn-danger" onclick="deleteBookmark(\'' +
@@ -89,14 +78,12 @@ function fetchBookmarks() {
 }
 
 function deleteBookmark(name) {
-    // console.log(name);
-
     // Get bookmarks from localStorage
     var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
 
-    //loop thourgh bookmarks
+    // Loop thourgh bookmarks
     for (var i = 0; i < bookmarks.length; i++) {
-        //remove the bookmark with the given name
+        // Remove the bookmark with the given name
         if (bookmarks[i].name === name) {
             bookmarks.splice(i, 1);
             break;
