@@ -20,7 +20,7 @@ function saveBookmark(e) {
         alert("Site name and URL cannot be empty");
         return false;
     }
-    
+
     // Store bookmarks array into local storage
 
     // Check if the bookmarks array exists
@@ -66,14 +66,14 @@ function fetchBookmarks() {
             "<h3>" +
             name +
             " " +
-            '<a target="_blank" class="btn btn-success" href="' +
+            '<a target="_blank" class="btn btn-primary" href="' +
             url +
             '">Visit</a> ' +
             '<button class="btn btn-danger" onclick="deleteBookmark(\'' +
             name +
             "')\">Delete</button>" +
             "</h3>" +
-            "</div>";
+            "</div>" + '<hr>';
     }
 }
 

@@ -1,4 +1,12 @@
 body {
     padding-top: 70px;
     padding-bottom: 70px;
+    background-color: #dadee2
+}
+h1 {
+    font-size: 60px;
+    padding-left: 26px
+}
+#bookmarksResult {
+    padding-left: 26px;
 }
