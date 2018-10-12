@@ -1,6 +1,23 @@
 // Event Listener for form submit
 document.querySelector("#myForm").addEventListener("submit", saveBookmark); // run saveBookmark when a form is submitted within #myForm
 
+document.querySelector('#filter').addEventListener('keyup', filterBookmarks);
+
+// Filter bookmarks
+function filterBookmarks() {
+    var filterValue = document.querySelector('#filter').value.toUpperCase();
+    var bookmarkNames = document.querySelectorAll('.name');
+
+    for (var i = 0; i < bookmarkNames.length; i++) {
+        var name = bookmarkNames[i].textContent.toUpperCase();
+        if (name.includes(filterValue)) {
+            bookmarkNames[i].parentElement.style.display = 'block';
+        } else {
+            bookmarkNames[i].parentElement.style.display = 'none';
+        }
+    }
+}
+
 // Save Bookmarks
 function saveBookmark(e) {
     e.preventDefault(); // prevents submit's default action (refresh page when clicked)
@@ -61,19 +78,29 @@ function fetchBookmarks() {
         var name = bookmarks[i].name;
         var url = bookmarks[i].url;
 
-        bookmarksResult.innerHTML +=
-            "<div>" +
-            "<h3>" +
-            name +
-            " " +
-            '<a target="_blank" class="btn btn-primary" href="' +
-            url +
-            '">Visit</a> ' +
-            '<button class="btn btn-danger" onclick="deleteBookmark(\'' +
-            name +
-            "')\">Delete</button>" +
-            "</h3>" +
-            "</div>" + '<hr>';
+        // Create div
+        var div = document.createElement('div');
+        // Create h3
+        var h3 = document.createElement('h3');
+        h3.textContent = name;
+        h3.className = 'name';
+        // Create link
+        var a = document.createElement('a');
+        a.href = url;
+        a.className = 'btn btn-success';
+        a.textContent = 'Visit';
+        // Create button
+        var button = document.createElement('button');
+        button.className = 'btn btn-danger';
+        button.textContent = 'Delete';
+        button.addEventListener('click', function(e) {
+            var siteName = e.target.parentElement.children[0].textContent;
+            deleteBookmark(siteName);
+        });
+        div.appendChild(h3);
+        div.appendChild(a);
+        div.appendChild(button);
+        bookmarksResult.appendChild(div);
     }
 }
 
